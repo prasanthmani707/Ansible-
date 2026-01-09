@@ -1,0 +1,18 @@
+Subject: {{ email_subject }}
+
+Dear {{ recipient_name | default('Sir/Madam') }},
+
+I would like to request leave on {{ leave_date }}
+due to {{ reason }}.
+
+I will ensure that my responsibilities are managed in advance.
+{{ colleague_name }} will handle my work during my absence.
+
+Kindly grant me permission for the same.
+
+Thank you for your consideration.
+
+Yours sincerely,
+{{ your_name }}
+{{ department }}
+

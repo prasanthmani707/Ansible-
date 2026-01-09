@@ -1,0 +1,15 @@
+Subject: {{ email_subject }}
+
+Dear {{ recipient_name | default('Sir/Madam') }},
+
+I am unwell and would like to request leave on {{ leave_date }}
+due to health reasons.
+
+I will resume work once I recover.
+{{ colleague_name }} will handle  tasks during my absence.
+
+Thank you for your understanding.
+
+Yours sincerely,
+{{ your_name }}
+{{ department }}

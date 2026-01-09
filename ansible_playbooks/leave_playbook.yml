@@ -1,0 +1,48 @@
+- name: Generate  Leave Letter
+  hosts: localhost
+  gather_facts: no
+
+  tasks: 
+
+    - name: Validate required variables
+      assert:
+        that:
+          - letter_type
+          - email_subject
+          - recipient_name
+          - leave_date
+          - reason
+          - colleague_name
+          - your_name
+          - department
+        fail_msg: "One or more required variables are missing. Check --extra-vars input."
+   
+    - name: Validate the letter type
+      fail:
+        msg: letter_type must be 'casual' or 'sick'
+      when: letter_type not in ['casual','sick']
+
+    - name: selete the template based on the letter type 
+      set_fact:
+        template_file: "{{letter_type}}_leave.j2"
+      
+    - name: Generate the leave letter 
+      template:
+        src: "{{template_file}}"
+        dest: "output/{{ your_name }}_{{ letter_type }}_leave.txt"
+
+    - name: Render leave letter into variable for email
+      set_fact:
+        letter_body: "{{ lookup('template', 'templates/' ~ template_file) }}"
+    
+    - name: Send leave letter email
+      mail:
+        host: smtp.gmail.com
+        port: 587
+        secure: starttls
+        username: "prasanthmani707@gmail.com"
+        password: "jknu wmkv wijc gccq"
+        to: "{{ to_email }}"
+        from: "prasanthmani707@gmail.com"
+        subject: "{{ email_subject }}"
+        body: "{{ letter_body }}"
